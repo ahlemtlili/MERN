@@ -1,10 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import Product from '../Product/Product'
 
-const ProductList = ({products,getAllProducts}) => {
+const ProductList = () => {
+  const products = useSelector(state=>state.productReducer.products)
   return (
     <div style={{display:"flex",justifyContent:"space-evenly"}}>
-        {products.map(el=><Product el={el} getAllProducts={getAllProducts} key={el._id}/>)}
+        {products.map(el=><Product el={el} key={el._id}/>)}
     </div>
   )
 }

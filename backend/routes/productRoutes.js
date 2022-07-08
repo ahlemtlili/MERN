@@ -2,6 +2,7 @@ const { query } = require("express");
 const express = require("express");
 const Product = require("../models/Product");
 const router = express.Router();
+const checkName = require("../middlewares/CheckName")
 //router.get('/', (req, res) => res.send('Hello World!'))
 /**
  * @method Post
@@ -9,7 +10,7 @@ const router = express.Router();
  * @path '/products/addproduct'
  */
 
-router.post("/addproduct", async (req, res) => {
+router.post("/addproduct", checkName, async (req, res) => {
   try {
     const searchProduct=await Product.findOne({name:req.body.name})
     if(searchProduct)
@@ -19,7 +20,7 @@ router.post("/addproduct", async (req, res) => {
     res.send({newProduct,msg:"the product is successfully added"})
   } catch (error) {
     console.log(error);
-    res.status(400).send("failed to save")
+    res.status(400).send(error.message)
   }
 });
 router.get("/",async(req,res)=>{

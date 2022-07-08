@@ -1,28 +1,33 @@
 import './App.css';
 import ProductList from './Components/ProductList/ProductList';
-import {Routes,Route} from "react-router-dom"
-import { useEffect, useState } from 'react';
-import axios from 'axios'
+import {Routes,Route, Link} from "react-router-dom"
+import { useEffect} from 'react';
 import Details from './Components/Details/Details';
+import { useDispatch } from 'react-redux';
+import {getAllProducts} from "./Redux/actions/productActions"
+import AddProduct from './Components/addProduct/AddProduct';
 function App() {
-  const [products, setProducts] = useState([])
-  const getAllProducts=async()=>{
-    try {
-      const response=await axios.get('http://localhost:5000/products/')
-      setProducts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const dispatch = useDispatch()
+
+  // const [products, setProducts] = useState([])
+  // const getAllProducts=async()=>{
+  //   try {
+  //     const response=await axios.get('http://localhost:5000/products/')
+  //     setProducts(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   useEffect(() => {
-    getAllProducts()
+    dispatch(getAllProducts())
   }, [])
   
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<ProductList products={products} getAllProducts={getAllProducts} />}/>
+        <Route path="/" element={<div> <Link to="/addproduct"> <button> ADD PRODUCT </button> </Link> <ProductList/> </div>}/>
      <Route path="/details/:id" element={<Details/>}/>
+     <Route path="/addproduct" element={<AddProduct/>}/>
       </Routes>
     </div>
   );
