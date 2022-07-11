@@ -38,7 +38,8 @@ export default function Product({el}) {
       </CardContent>
       <CardActions>
         <Button onClick ={()=> dispatch(deleteProduct(el._id))} size="small">Delete</Button>
-        <Button size="small">Edit</Button>
+     <Link to={`/editproduct/${el._id}`}>   <Button size="small">Edit</Button></Link>
+
      <Link to={`/details/${el._id}`}>   <Button size="small">Details</Button></Link>
       </CardActions>
     </Card>

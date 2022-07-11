@@ -6,6 +6,7 @@ import Details from './Components/Details/Details';
 import { useDispatch } from 'react-redux';
 import {getAllProducts} from "./Redux/actions/productActions"
 import AddProduct from './Components/addProduct/AddProduct';
+import EditProduct from './Components/EditProduct/EditProduct';
 function App() {
   const dispatch = useDispatch()
 
@@ -28,6 +29,8 @@ function App() {
         <Route path="/" element={<div> <Link to="/addproduct"> <button> ADD PRODUCT </button> </Link> <ProductList/> </div>}/>
      <Route path="/details/:id" element={<Details/>}/>
      <Route path="/addproduct" element={<AddProduct/>}/>
+     <Route path="/editproduct/:id" element={<EditProduct/>}/>
+
       </Routes>
     </div>
   );

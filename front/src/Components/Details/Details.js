@@ -1,22 +1,20 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getOneProduct } from "../../Redux/actions/productActions";
 
 const Details = () => {
   const { id } = useParams();
-  const getOneProduct = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/products/details/${id}`
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const dispatch=useDispatch()
   useEffect(() => {
-    getOneProduct();
+    dispatch(getOneProduct(id));
   }, []);
-  return <div>Details {id} </div>;
+  const oneProduct=useSelector(state=>state.productReducer.oneProduct)
+  return <div> <h1>{oneProduct.name} </h1>
+  <h1>{oneProduct.price} </h1>
+         </div>
+
 };
 
 export default Details;

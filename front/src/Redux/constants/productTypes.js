@@ -9,3 +9,9 @@ export const DELETE_PRODUCT_SUCCESS = "DELETE_PRODUCT_SUCCESS"
 //add product actions types
 export const ADD_PRODUCT_FAIL = "ADD_PRODUCT_FAIL"
 export const ADD_PRODUCT_SUCCESS = "ADD_PRODUCT_SUCCESS"
+//details product actions types
+export const GET_ONE_PRODUCT_FAIL = "GET_ONE_PRODUCT_FAIL"
+export const GET_ONE_PRODUCT_SUCCESS = "GET_ONE_PRODUCT_SUCCESS"
+//update product actions types
+export const UPDATE_ONE_PRODUCT_FAIL = "UPDATE_ONE_PRODUCT_FAIL"
+export const UPDATE_ONE_PRODUCT_SUCCESS = "UPDATE_ONE_PRODUCT_SUCCESS"
