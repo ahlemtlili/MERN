@@ -3,17 +3,17 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const isAuth = require("../middlewares/isAuth");
-
+const isAdmin = require("../middlewares/isAdmin");
+const { registerRules,loginRules, validator } = require("../middlewares/validator");
 const router = express.Router();
 //register user:
-router.post("/registeruser", async (req, res) => {
+router.post("/registeruser", registerRules(), validator, async (req, res) => {
   const { email, password } = req.body;
   try {
     const existUser = await User.findOne({ email });
     if (existUser) {
       return res.status(400).send({ msg: "user already exist, please login" });
     }
-
     const newUser = new User({ ...req.body });
     const hashedPassword = await bcrypt.hash(password, 10);
     // console.log(hashedPassword);
@@ -28,7 +28,7 @@ router.post("/registeruser", async (req, res) => {
 });
 
 //login
-router.post("/login", async (req, res) => {
+router.post("/login",loginRules(),validator, async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -48,7 +48,19 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/",isAuth(), (req, res) => {
-  console.log("hello");
+router.get("/currentUser", isAuth(), (req, res) => {
+  console.log(req.user);
+  res.send(req.user);
 });
+router.get("/allUsers", isAuth(), isAdmin, async (req, res) => {
+  /*console.log(req.user);
+  res.send(req.user);*/
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 module.exports = router;

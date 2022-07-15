@@ -6,7 +6,6 @@ products:[],
 errors:null,
 oneProduct:{}
 }
-
 export const productReducer =(state=initialState, {type, payload})=>{
     switch (type) {
         case GET_PRODUCTS_LOADING: return {...state, loading:true}
@@ -17,7 +16,6 @@ export const productReducer =(state=initialState, {type, payload})=>{
         case GET_ONE_PRODUCT_SUCCESS:return{...state,oneProduct:payload}
         case GET_ONE_PRODUCT_FAIL: return {...state, errors: payload}
         case UPDATE_ONE_PRODUCT_FAIL: return {...state, errors: payload}
-
 
         default: return state;
            
