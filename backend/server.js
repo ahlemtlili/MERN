@@ -7,6 +7,7 @@ require('dotenv').config({path:"./config/.env"})
 const cors = require('cors')
 //console.log(process.env.MONGO_URI)
 const app = express()
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(express.json())
 app.use(cors()) // Use this after the variable declaration
 connectdb()

@@ -11,6 +11,7 @@ import SignUp from "./Components/SignUp/SignUp";
 import SignIn from "./Components/SignIn/SignIn";
 import NavBar from "./Components/Navbar/Navbar";
 import { getCurrentuser } from "./Redux/actions/userActions";
+import PrivateRoute from "./Components/Privates/PrivateRoute";
 function App() {
   const dispatch = useDispatch();
 
@@ -37,16 +38,24 @@ function App() {
             <div>
               {" "}
               <NavBar />
-              <Link to="/addproduct">
-                {" "}
-                <button> ADD PRODUCT </button>{" "}
-              </Link>{" "}
-              <ProductList />{" "}
+              {localStorage.getItem("token") ? (
+                <Link to="/addproduct">
+                  <button> ADD PRODUCT </button>{" "}
+                </Link>
+              ) : null}
+              <ProductList />
             </div>
           }
         />
         <Route path="/details/:id" element={<Details />} />
-        <Route path="/addproduct" element={<AddProduct />} />
+        <Route
+          path="/addproduct"
+          element={
+            <PrivateRoute>
+              <AddProduct />
+            </PrivateRoute>
+          }
+        />
         <Route path="/editproduct/:id" element={<EditProduct />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/signIn" element={<SignIn />} />

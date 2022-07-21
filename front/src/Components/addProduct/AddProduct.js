@@ -22,19 +22,20 @@ const theme = createTheme();
 export default function AddProduct() {
  const dispatch = useDispatch()
  const navigate = useNavigate()
+ const [image, setImage] = React.useState("")
+ const [name, setName] = React.useState("")
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const data = new FormData();
+    data.append("file",image)
+    data.append("name",name)
     // console.log({
     //   name: data.get('name'),
     //   price: data.get('price'),
     //   available: data.get('available'),
     // });
-    dispatch(addProduct({
-        name: data.get('name'),
-        price: data.get('price'),
-        available: data.get('available')|| false,
-      }, navigate))
+
+    dispatch(addProduct(data, navigate))
   };
 const [avail, setAvail] = React.useState(false)
   return (
@@ -66,6 +67,7 @@ const [avail, setAvail] = React.useState(false)
                   id="name"
                   label="Name"
                   autoFocus
+                  onChange={(e)=>setName(e.target.value)}
                 />
               </Grid>
         
@@ -77,6 +79,15 @@ const [avail, setAvail] = React.useState(false)
                   label="price"
                   name="price"
                   type= "Number"
+                />
+                <TextField
+                  required
+                  fullWidth
+                  id="file"
+                  label="file"
+                  name="file"
+                  type= "file"
+                  onChange={(e)=>setImage(e.target.files[0])}
                 />
               </Grid>
               <Grid item xs={12}>

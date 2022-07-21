@@ -3,6 +3,8 @@ const express = require("express");
 const Product = require("../models/Product");
 const router = express.Router();
 const checkName = require("../middlewares/CheckName")
+const isAuth = require("../middlewares/isAuth");
+const upload=require("../utils/multer")
 //router.get('/', (req, res) => res.send('Hello World!'))
 /**
  * @method Post
@@ -10,12 +12,18 @@ const checkName = require("../middlewares/CheckName")
  * @path '/products/addproduct'
  */
 
-router.post("/addproduct", checkName, async (req, res) => {
+router.post("/addproduct",upload("products").single("file"),isAuth(),checkName, async (req, res) => {
+  console.log(req.file)
+  const url = `${req.protocol}://${req.get('host')}`;
+ // console.log(req.file);
+ const { file } = req;
   try {
+
     const searchProduct=await Product.findOne({name:req.body.name})
     if(searchProduct)
     {return res.status(400).send({msg:"name must be unique"})}
-    const newProduct = new Product({ ...req.body });
+    const newProduct = new Product({ ...req.body,user:req.user._id });
+   newProduct.image = `${url}/${file.path}`;
     await newProduct.save();
     res.send({newProduct,msg:"the product is successfully added"})
   } catch (error) {
@@ -26,8 +34,8 @@ router.post("/addproduct", checkName, async (req, res) => {
 router.get("/",async(req,res)=>{
     //console.log(req)
     try {
-    const price=req.query.price || 0
-     const allProducts=await Product.find({price:{$gte:price}}) 
+    //const price=req.query.price || 0
+     const allProducts=await Product.find().populate("user","fullName")
      res.send(allProducts)  
     } catch (error) {
         console.log(error)

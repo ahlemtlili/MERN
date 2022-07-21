@@ -35,6 +35,9 @@ export default function Product({el}) {
         <Typography variant="body2" color="text.secondary">
          Price : {el.price}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+         added by : {el.user.fullName}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button onClick ={()=> dispatch(deleteProduct(el._id))} size="small">Delete</Button>
